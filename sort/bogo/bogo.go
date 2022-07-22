@@ -6,11 +6,11 @@ import (
 )
 
 func randomInts(len int) []int {
+	rand.Seed(time.Now().UnixNano())
 	ret := make([]int, len)
 	for i := range ret {
 		ret[i] = rand.Intn(1000)
 	}
-
 	return ret
 }
 
