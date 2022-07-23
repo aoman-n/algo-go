@@ -1,3 +1,3 @@
-module github.com/laster18/argo-go
+module github.com/laster18/algo-go
 
 go 1.18
