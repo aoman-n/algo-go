@@ -34,7 +34,7 @@ func (l *LinkedList) Head() *Node {
 	return l.head
 }
 
-// Insert　最後尾にNodeを追加する
+// Insert 最後尾にNodeを追加する
 func (l *LinkedList) Append(data int) {
 	newNode := NewNode(data)
 	if l.head == nil {
@@ -49,7 +49,7 @@ func (l *LinkedList) Append(data int) {
 	iterator.next = newNode
 }
 
-// Insert　先頭にNodeを追加する
+// Insert 先頭にNodeを追加する
 func (l *LinkedList) Insert(data int) {
 	newNode := NewNode(data)
 	newNode.next = l.head
