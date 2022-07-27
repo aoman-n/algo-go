@@ -126,6 +126,40 @@ func reverseRecursiveHelper(currentNode *Node) *Node {
 	return currentNode
 }
 
+func (l *List) Sort() {
+	if l.head == nil {
+		return
+	}
+
+	currentNode := l.head
+	for currentNode != nil {
+		// 一番小さい値を取得
+		minNode := l.findMinNode(currentNode)
+
+		minData := minNode.data
+		minNode.data = currentNode.data
+		currentNode.data = minData
+		currentNode = currentNode.next
+	}
+}
+
+func (l *List) findMinNode(head *Node) *Node {
+	if head == nil {
+		return nil
+	}
+
+	currentNode := head
+	minNode := head
+	for currentNode != nil {
+		if minNode.data > currentNode.data {
+			minNode = currentNode
+		}
+		currentNode = currentNode.next
+	}
+
+	return minNode
+}
+
 func (l *List) Print(writer io.Writer) {
 	iterator := l.head
 
