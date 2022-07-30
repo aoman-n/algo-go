@@ -32,9 +32,7 @@ func ValidateFormat(chars string) bool {
 			continue
 		}
 
-		p := s.Peek()
-		if p.Valid && p.Val == string(c) {
-			s.Pop()
+		if p := s.Pop(); p.Valid && p.Val == string(c) {
 			continue
 		} else {
 			return false
