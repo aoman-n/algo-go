@@ -161,3 +161,20 @@ func Run() {
 	l.ReverseRecursive()
 	l.Print(os.Stdout)
 }
+
+// 参考: https://go.dev/blog/maps
+// type Node struct {
+// 	Next  *Node
+// 	Value interface{}
+// }
+// var first *Node
+
+// visited := make(map[*Node]bool)
+// for n := first; n != nil; n = n.Next {
+// 	if visited[n] {
+// 		fmt.Println("cycle detected")
+// 		break
+// 	}
+// 	visited[n] = true
+// 	fmt.Println(n.Value)
+// }
