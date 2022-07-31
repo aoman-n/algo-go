@@ -2,31 +2,39 @@ package btree
 
 import (
 	"fmt"
+	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestBtree(t *testing.T) {
-	tree := Tree[int]{
-		cmp: func(a, b int) int {
-			return a - b
-		},
-		root: &node[int]{
-			left:  nil,
-			right: nil,
-			val:   10,
-		},
-	}
+func TestBST(t *testing.T) {
+	fmt.Println("hello world!!")
 
-	tree.Insert(5)
-	tree.Insert(15)
+	b := NewBST(func(i1, i2 int) int { return i1 - i2 })
 
-	n := tree.find(5)
-	if *n != nil {
-		fmt.Printf("n: %v\n", (**n).val)
-	}
+	b.Insert(3)
+	b.Insert(6)
+	b.Insert(5)
+	b.Insert(7)
+	b.Insert(1)
+	b.Insert(10)
+	b.Insert(2)
+	b.InOrderPrint(os.Stdout)
 
-	n2 := tree.find(8)
-	if *n2 != nil {
-		fmt.Printf("n2: %v\n", (**n2).val)
-	}
+	assert.Equal(t, true, b.Search(3))
+	assert.Equal(t, true, b.Search(5))
+	assert.Equal(t, false, b.Search(8))
+	assert.Equal(t, false, b.Search(11))
+
+	b.Remove(11)
+	assert.Equal(t, []int{1, 2, 3, 5, 6, 7, 10}, b.InOrderSlice())
+	b.Remove(6)
+	assert.Equal(t, []int{1, 2, 3, 5, 7, 10}, b.InOrderSlice())
+	b.Remove(10)
+	assert.Equal(t, []int{1, 2, 3, 5, 7}, b.InOrderSlice())
+	b.Remove(1)
+	assert.Equal(t, []int{2, 3, 5, 7}, b.InOrderSlice())
+	b.Remove(5)
+	assert.Equal(t, []int{2, 3, 7}, b.InOrderSlice())
 }

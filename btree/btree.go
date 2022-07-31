@@ -1,47 +1,134 @@
 package btree
 
-// ref: https://go.dev/blog/when-generics
+import (
+	"fmt"
+	"io"
+)
 
-// Tree is a binary tree.
-type Tree[T any] struct {
+type node[T any] struct {
+	val         T
+	left, right *node[T]
+}
+
+func newNode[T any](val T) *node[T] {
+	return &node[T]{val, nil, nil}
+}
+
+type BST[T any] struct {
 	cmp  func(T, T) int
 	root *node[T]
 }
 
-// A node in a Tree.
-type node[T any] struct {
-	left, right *node[T]
-	val         T
-}
-
-// find returns a pointer to the node containing val,
-// or, if val is not present, a pointer to where it
-// would be placed if added.
-//
-func (bt *Tree[T]) find(val T) **node[T] {
-	pl := &bt.root
-	for *pl != nil {
-		switch cmp := bt.cmp(val, (*pl).val); {
-		case cmp < 0:
-			pl = &(*pl).left
-		case cmp > 0:
-			pl = &(*pl).right
-		default:
-			return pl
-		}
+func NewBST[T any](cmp func(T, T) int) *BST[T] {
+	return &BST[T]{
+		cmp:  cmp,
+		root: nil,
 	}
-	return pl
 }
 
-// Insert inserts val into bt if not already there,
-// and reports whether it was inserted.
-func (bt *Tree[T]) Insert(val T) bool {
-	// 存在しなかった場合は、挿入位置のnodeのポインタのポインタを受け取ってポインタを書き換える
-	pl := bt.find(val)
-	// すでに存在していた場合はfalseを返す
-	if *pl != nil {
+func (b *BST[T]) Insert(val T) {
+	if b.root == nil {
+		b.root = &node[T]{val, nil, nil}
+		return
+	}
+
+	b.insert(b.root, val)
+}
+
+func (b *BST[T]) insert(root *node[T], val T) *node[T] {
+	if root == nil {
+		return newNode(val)
+	}
+
+	cmp := b.cmp(root.val, val)
+	if cmp > 0 {
+		root.left = b.insert(root.left, val)
+	} else if cmp < 0 {
+		root.right = b.insert(root.right, val)
+	}
+
+	return root
+}
+
+func (b *BST[T]) InOrderPrint(w io.Writer) {
+	b.inOrderPrint(w, b.root)
+	fmt.Fprintln(w)
+}
+
+func (b *BST[T]) inOrderPrint(w io.Writer, root *node[T]) {
+	if root != nil {
+		b.inOrderPrint(w, root.left)
+		fmt.Fprintf(w, "%v ", root.val)
+		b.inOrderPrint(w, root.right)
+	}
+}
+
+func (b *BST[T]) InOrderSlice() []T {
+	s := make([]T, 0)
+	b.inOrderSlice(b.root, &s)
+	return s
+}
+
+func (b *BST[T]) inOrderSlice(node *node[T], s *[]T) {
+	if node != nil {
+		b.inOrderSlice(node.left, s)
+		*s = append(*s, node.val)
+		b.inOrderSlice(node.right, s)
+	}
+}
+
+func (b *BST[T]) Search(val T) bool {
+	return b.search(b.root, val)
+}
+
+func (b *BST[T]) search(root *node[T], val T) bool {
+	if root == nil {
 		return false
 	}
-	*pl = &node[T]{val: val}
-	return true
+
+	switch cmp := b.cmp(root.val, val); {
+	case cmp > 0:
+		return b.search(root.left, val)
+	case cmp < 0:
+		return b.search(root.right, val)
+	default:
+		return true
+	}
+}
+
+func (b *BST[T]) Remove(val T) {
+	b.root = b.remove(b.root, val)
+}
+
+func (b *BST[T]) remove(root *node[T], val T) *node[T] {
+	if root == nil {
+		return nil
+	}
+
+	switch cmp := b.cmp(root.val, val); {
+	case cmp > 0:
+		root.left = b.remove(root.left, val)
+	case cmp < 0:
+		root.right = b.remove(root.right, val)
+	default:
+		if root.right == nil {
+			return root.left
+		} else if root.left == nil {
+			return root.right
+		} else {
+			tmp := b.minNode(root.right)
+			root.val = tmp.val
+			root.right = b.remove(root.right, tmp.val)
+		}
+	}
+
+	return root
+}
+
+func (b *BST[T]) minNode(root *node[T]) *node[T] {
+	currentNode := root
+	for currentNode.left != nil {
+		currentNode = currentNode.left
+	}
+	return currentNode
 }
