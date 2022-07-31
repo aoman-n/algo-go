@@ -13,13 +13,13 @@ func TestBST(t *testing.T) {
 
 	b := NewBST(func(i1, i2 int) int { return i1 - i2 })
 
-	b.Insert(3)
-	b.Insert(6)
-	b.Insert(5)
-	b.Insert(7)
-	b.Insert(1)
-	b.Insert(10)
-	b.Insert(2)
+	b.Insert2(3)
+	b.Insert2(6)
+	b.Insert2(5)
+	b.Insert2(7)
+	b.Insert2(1)
+	b.Insert2(10)
+	b.Insert2(2)
 	b.InOrderPrint(os.Stdout)
 
 	assert.Equal(t, true, b.Search(3))

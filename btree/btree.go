@@ -50,6 +50,34 @@ func (b *BST[T]) insert(root *node[T], val T) *node[T] {
 	return root
 }
 
+func (b *BST[T]) Insert2(val T) bool {
+	n := b.find(val)
+
+	if *n != nil {
+		return false
+	}
+
+	*n = newNode(val)
+	return true
+}
+
+func (b *BST[T]) find(val T) **node[T] {
+	pl := &b.root
+
+	for *pl != nil {
+		switch cmp := b.cmp((*pl).val, val); {
+		case cmp > 0:
+			pl = &(*pl).left
+		case cmp < 0:
+			pl = &(*pl).right
+		default:
+			return pl
+		}
+	}
+
+	return pl
+}
+
 func (b *BST[T]) InOrderPrint(w io.Writer) {
 	b.inOrderPrint(w, b.root)
 	fmt.Fprintln(w)
