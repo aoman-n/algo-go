@@ -1,11 +1,5 @@
 package quiz
 
-func swapHeadTo(list []int, i int) {
-	val := list[0]
-	copy(list[:i], list[1:i+1])
-	list[i] = val
-}
-
 func insertForPerm(list []int, i int, val int) []int {
 	result := make([]int, len(list))
 	copy(result, list)
