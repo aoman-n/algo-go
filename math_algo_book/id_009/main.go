@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
-// Bad: 全探索(未完成)
+// Bad: ビット全探索
 func main() {
 	var n, s int
 	fmt.Scan(&n, &s)
@@ -12,19 +15,21 @@ func main() {
 		fmt.Scan(&list[i])
 	}
 
-	answer := "No"
-loop:
-	for i, x := range list {
-		for j := i + 1; j < len(list); j++ {
-			y := list[j]
-			fmt.Printf("x: %v, y: %v\n", x, y)
-			sum := x + y
-			if sum == s {
-				answer = "Yes"
-				break loop
+	for i := 0; i < int(math.Pow(2, float64(n))); i++ {
+		sum := 0
+
+		for j := 1; j <= n; j++ {
+			validDigit := (i & int(math.Pow(2, float64(i-j)))) == 0
+			if validDigit {
+				sum += list[j-1]
 			}
+		}
+
+		if sum == s {
+			fmt.Println("Yes")
+			return
 		}
 	}
 
-	fmt.Println(answer)
+	fmt.Println("No")
 }
