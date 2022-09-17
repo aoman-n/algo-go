@@ -3,7 +3,7 @@ package quiz
 import (
 	"testing"
 
-	"github.com/laster18/algo-go/pkg/slice"
+	"github.com/laster18/algo-go/udemy/pkg/slice"
 )
 
 func Test_phoneMnemonicV1(t *testing.T) {

@@ -17,7 +17,6 @@ type node[T any] struct {
 // find returns a pointer to the node containing val,
 // or, if val is not present, a pointer to where it
 // would be placed if added.
-//
 func (bt *Tree[T]) find(val T) **node[T] {
 	pl := &bt.root
 	for *pl != nil {
