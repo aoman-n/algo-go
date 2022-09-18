@@ -66,16 +66,16 @@ func main() {
 		rowSums[i] = sum
 	}
 
-	sumsSquare := make([][]int, H)
-	for rowIndex := range sumsSquare {
+	answer := make([][]int, H)
+	for rowIndex := range answer {
 		sumLine := make([]int, W)
 		for columnIndex := range sumLine {
 			sumLine[columnIndex] = columnSums[columnIndex] + rowSums[rowIndex] - A[rowIndex][columnIndex]
 		}
-		sumsSquare[rowIndex] = sumLine
+		answer[rowIndex] = sumLine
 	}
 
-	for _, line := range sumsSquare {
+	for _, line := range answer {
 		fmt.Fprint(writer, strings.Join(toStrings((line)), " ")+"\n")
 	}
 }

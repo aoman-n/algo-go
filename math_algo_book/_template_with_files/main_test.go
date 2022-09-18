@@ -28,7 +28,6 @@ func Test_main(t *testing.T) {
 
 			// assertion
 			expected, _ := os.ReadFile(fmt.Sprintf("./testfiles/%s/output.txt", test.Name()))
-			fmt.Printf("result: %v, expected: %v\n", result, expected)
 			if !bytes.Equal(result.Bytes(), expected) {
 				t.Logf("expected: %s\n", string(expected))
 				t.Fatalf("unexpected result: %s\n", result.String())
