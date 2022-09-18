@@ -13,13 +13,8 @@ func Test_main(t *testing.T) {
 	}{
 		{
 			name:  "case1",
-			input: "3\n10 20 30",
-			want:  "60",
-		},
-		{
-			name:  "case2",
-			input: "5\n10 20 30 40 50",
-			want:  "150",
+			input: "33 88",
+			want:  "11",
 		},
 	}
 
