@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"math"
 	"os"
 	"strconv"
 )
@@ -71,4 +72,12 @@ func nir(sc *bufio.Scanner, n int, m int) [][]int {
 		a[i] = nis(sc, m)
 	}
 	return a
+}
+
+// ==================================================
+// util
+// ==================================================
+
+func abs(n int) int {
+	return int(math.Abs(float64(n)))
 }
