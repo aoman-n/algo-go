@@ -62,3 +62,13 @@ func nis(sc *bufio.Scanner, n int) []int {
 	}
 	return a
 }
+
+// n: 行数
+// m: 要素数
+func nir(sc *bufio.Scanner, n int, m int) [][]int {
+	a := make([][]int, n)
+	for i := range a {
+		a[i] = nis(sc, m)
+	}
+	return a
+}
