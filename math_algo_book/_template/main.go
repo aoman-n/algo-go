@@ -12,6 +12,8 @@ import (
 var reader io.Reader
 var writer io.Writer
 
+const MOD = 1000000007
+
 func init() {
 	reader = os.Stdin
 	writer = os.Stdout
