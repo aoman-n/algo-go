@@ -18,7 +18,9 @@ func init() {
 }
 
 func hasOverTwo(t, a, b int) bool {
+	// a~b範囲の"最大の倍数"を計算(小数点切り捨てることで計算する)
 	left := b / t * t
+	// a~b範囲の"最小の倍数"を計算(小数点を切り上げることで計算する)
 	right := int(math.Ceil(float64(a)/float64(t)) * float64(t))
 
 	return (left - right) >= 1
