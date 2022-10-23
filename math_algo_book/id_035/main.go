@@ -36,7 +36,7 @@ func main() {
 	Vx := x2 - x1
 	Vy := y2 - y1
 	// v=2つの円の中心から中心の距離
-	v := vLength(float64(Vx), float64(Vy))
+	v := math.Abs(vLength(float64(Vx), float64(Vy)))
 
 	var smallR float64
 	var largeR float64
