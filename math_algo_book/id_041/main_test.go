@@ -3,13 +3,13 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"reflect"
-	"strings"
 
 	//lint:ignore SA1019 use Go 1.14.1 at AtCoder
 	"io/ioutil"
 	"os"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func Test_main(t *testing.T) {
@@ -30,10 +30,9 @@ func Test_main(t *testing.T) {
 
 			// assertion
 			expected, _ := os.ReadFile(fmt.Sprintf("./testfiles/%s/output.txt", test.Name()))
-			expectedStr := strings.TrimRight(string(expected), "\n ")
-			if !reflect.DeepEqual(result.String(), expectedStr) {
-				t.Logf("expected: %s\n", string(expected))
-				t.Fatalf("unexpected result: %s\n", result.String())
+
+			if diff := cmp.Diff(result.String(), expected); diff != "" {
+				t.Errorf("mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}
