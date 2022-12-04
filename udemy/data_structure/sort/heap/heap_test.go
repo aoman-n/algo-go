@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/laster18/algo-go/udemy/pkg/generator"
+	"github.com/aoman-n/algo-go/udemy/pkg/generator"
 )
 
 func TestHeap(t *testing.T) {

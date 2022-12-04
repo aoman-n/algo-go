@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/laster18/algo-go/udemy/pkg/smath"
+	"github.com/aoman-n/algo-go/udemy/pkg/smath"
 )
 
 func TestGetMaxSequenceSumBad(t *testing.T) {

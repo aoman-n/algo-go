@@ -1,7 +1,7 @@
 package quiz
 
 import (
-	"github.com/laster18/algo-go/udemy/pkg/slice"
+	"github.com/aoman-n/algo-go/udemy/pkg/slice"
 )
 
 // [1, 3, 3, 5, 5, 7, 7, 7, 10, 12, 12, 15]

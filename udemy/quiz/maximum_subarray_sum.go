@@ -3,7 +3,7 @@ package quiz
 import (
 	"fmt"
 
-	"github.com/laster18/algo-go/udemy/pkg/smath"
+	"github.com/aoman-n/algo-go/udemy/pkg/smath"
 )
 
 // {1, -2, 3, 6, -1, 2, 4, -5, 2}

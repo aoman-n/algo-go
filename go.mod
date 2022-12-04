@@ -1,4 +1,4 @@
-module github.com/laster18/algo-go
+module github.com/aoman-n/algo-go
 
 go 1.18
 
