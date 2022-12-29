@@ -3,8 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"reflect"
-	"strings"
 
 	//lint:ignore SA1019 use Go 1.14.1 at AtCoder
 	"io/ioutil"
@@ -30,8 +28,7 @@ func Test_main(t *testing.T) {
 
 			// assertion
 			expected, _ := os.ReadFile(fmt.Sprintf("./testfiles/%s/output.txt", test.Name()))
-			expectedStr := strings.TrimRight(string(expected), "\n ")
-			if !reflect.DeepEqual(result.String(), expectedStr) {
+			if result.String() != string(expected) {
 				t.Logf("expected: %s\n", string(expected))
 				t.Fatalf("unexpected result: %s\n", result.String())
 			}
