@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"math"
 	"os"
@@ -22,53 +21,48 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
+	H, W, N := ni3(sc)
 
-	// N=点の数
-	// X,Y=座標の配列
-	N := ni(sc)
-	X := make([]int, N)
-	Y := make([]int, N)
-	for i := 0; i < N; i++ { 
-		X[i], Y[i] = ni2(sc)
+	// マス目を作る
+	Z := make([][]int, W+2)
+	for i := range make([]struct{}, len(Z)) {
+		Z[i] = make([]int, H+2)
 	}
 
-	// 累積和を入れる表を初期化
-	Z := make([][]int, 1500+1)
-	for i := range Z {
-		Z[i] = make([]int, 1500+1)
+	for range make([]struct{}, N) {
+		A, B, C, D := ni4(sc)
+		Z[A][B]++
+		Z[C+1][D+1]++
+		Z[C+1][B]--
+		Z[A][D+1]--
 	}
 
-	// 各点を調べZに入れていく
-	for i := 0; i < N; i++ {
-		Z[Y[i]][X[i]]++
-	}
+	// 行の累積和を計算
+	// for x := 1; x <= W+1; x++ {
+	// 	for y := 0; y <= H+1; y++ {
+	// 		Z[x][y] += Z[x-1][y]
+	// 	}
+	// }
 
-	// 横の累積和を計算
-	for rowI := 0; rowI < 1500+1; rowI++ {
-		for colI := 1; colI < 1500+1; colI++ {
-			Z[rowI][colI] = Z[rowI][colI-1] + Z[rowI][colI]
-		}
-	}
+	// // 列の累積和を計算
+	// for x := 0; x <= W+1; x++ {
+	// 	for y := 1; y <= H+1; y++ {
+	// 		Z[x][y] += Z[x][y-1]
+	// 	}
+	// }
 
-	// 縦の累積和を計算
-	for colI := 0; colI < 1500+1; colI++ {
-		for rowI := 1; rowI < 1500+1; rowI++ {
-			Z[rowI][colI] = Z[rowI-1][colI] + Z[rowI][colI]
-		}
-	}
-
-	Q := ni(sc)
-	for range make([]struct{}, Q) {
-		a, b, c, d := ni4(sc)
-		sum := Z[d][c]
-		switch {
-		case a <= 0 || b <= 0:
-			fmt.Fprintln(writer, sum)
-		default:
-			answer := sum - Z[d][a-1] - Z[b-1][c] + Z[b-1][a-1]
-			fmt.Fprintln(writer, answer)
-		}
-	}
+	// // 出力
+	// for y := 1; y <= H; y++ {
+	// 	for x := 1; x <= W; x++ {
+	// 		cont := ""
+	// 		if x >= 2 {
+	// 			cont += " "
+	// 		}
+	// 		cont += strconv.Itoa(Z[x][y])
+	// 		fmt.Fprint(writer, cont)
+	// 	}
+	// 	fmt.Fprintln(writer)
+	// }
 }
 
 // ==================================================
