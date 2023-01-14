@@ -1,0 +1,102 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"math"
+	"os"
+	"strconv"
+)
+
+var reader io.Reader
+var writer io.Writer
+
+const MOD = 1000000007
+
+func init() {
+	reader = os.Stdin
+	writer = os.Stdout
+}
+
+// 全探索の練習
+func main() {
+	sc := bufio.NewScanner(reader)
+	sc.Split(bufio.ScanWords)
+	N, S := ni2(sc)
+	A := nis(sc, N)
+
+	totalLen := int(math.Pow(float64(2), float64(N)))
+	sums := make([]int, 0, totalLen)
+	for i := 0; i < totalLen; i++ {
+		sum := 0
+
+		for j := 0; j < N; j++ {
+			if (1<<j)&i != 0 {
+				sum += A[j]
+			}
+		}
+
+		sums = append(sums, sum)
+	}
+
+	for _, v := range sums {
+		if v == S {
+			fmt.Fprint(writer, "Yes")
+			return
+		}
+	}
+
+	fmt.Fprint(writer, "No")
+}
+
+// ==================================================
+// io
+// ==================================================
+
+func ni(sc *bufio.Scanner) int {
+	sc.Scan()
+	i, e := strconv.Atoi(sc.Text())
+	if e != nil {
+		panic(e)
+	}
+	return i
+}
+
+func ni2(sc *bufio.Scanner) (int, int) {
+	return ni(sc), ni(sc)
+}
+
+func ni3(sc *bufio.Scanner) (int, int, int) {
+	return ni(sc), ni(sc), ni(sc)
+}
+
+func ni4(sc *bufio.Scanner) (int, int, int, int) {
+	return ni(sc), ni(sc), ni(sc), ni(sc)
+}
+
+func nis(sc *bufio.Scanner, n int) []int {
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = ni(sc)
+	}
+	return a
+}
+
+// n: 行数
+// m: 要素数
+func nir(sc *bufio.Scanner, n int, m int) [][]int {
+	a := make([][]int, n)
+	for i := range a {
+		a[i] = nis(sc, m)
+	}
+	return a
+}
+
+// ==================================================
+// util
+// ==================================================
+
+func abs(n int) int {
+	return int(math.Abs(float64(n)))
+}
