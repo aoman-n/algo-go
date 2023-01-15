@@ -28,15 +28,59 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
-	n := ni(sc)
-	a := nis(sc, n)
+	N, W := ni2(sc)
 
-	answer := 0
-	for _, num := range a {
-		answer += num
+	w, v := make([]int, N+1), make([]int, N+1)
+	for i := 1; i < N+1; i++ {
+		w[i], v[i] = ni2(sc)
 	}
 
-	fmt.Fprint(writer, answer)
+	// dpの初期化
+	dp := make([][]int, N+1)
+	for i := 0; i < N+1; i++ {
+		dp[i] = make([]int, W+1)
+	}
+
+	// 0行目を初期化
+	for i := range dp[0] {
+		if i == 0 {
+			dp[0][i] = 0
+		} else {
+			dp[0][i] = MinInt
+		}
+	}
+
+	// i=品物のIndex
+	for i := 1; i < N+1; i++ {
+		// j=重さのIndex
+		for j := 1; j < W+1; j++ {
+			targetW := w[i]
+			targetV := v[i]
+
+			if j < targetW {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = max(dp[i-1][j], dp[i-1][j-targetW]+targetV)
+			}
+		}
+	}
+
+	fmt.Fprint(writer, maxIn(dp[N]))
+}
+
+func maxIn(s []int) int {
+	if len(s) <= 0 {
+		return MinInt
+	}
+
+	max := s[0]
+	for i := 1; i < len(s); i++ {
+		if s[i] > max {
+			max = s[i]
+		}
+	}
+
+	return max
 }
 
 // ==================================================
