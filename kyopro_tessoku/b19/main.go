@@ -28,15 +28,60 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
-	n := ni(sc)
-	a := nis(sc, n)
 
-	answer := 0
-	for _, num := range a {
-		answer += num
+	// N=品物の数
+	// W=最大重量
+	N, W := ni2(sc)
+
+	w, v := make([]int, N+1), make([]int, N+1)
+	for i := 1; i < N+1; i++ {
+		w[i], v[i] = ni2(sc)
 	}
 
-	fmt.Fprint(writer, answer)
+	// 横軸である価値の最大値を計算
+	xSize := sumInts(v)
+
+	// dp初期化
+	dp := make([][]int, N+1)
+	for i := range dp {
+		dp[i] = make([]int, xSize+1)
+	}
+
+	// dp[0]の補完.
+	// index=0意外は、全品物の合計重量以上を入れておけばminで比較する時に最小値にはならない.
+	// +100はなんとなく
+	allSumW := sumInts(w) + 100
+	for i := range dp[0] {
+		if i == 0 {
+			dp[0][0] = 0
+		} else {
+			dp[0][i] = allSumW
+		}
+	}
+
+	// i=品物Index
+	for i := 1; i < N+1; i++ {
+		// j=価値合計Index
+		for j := 0; j < xSize+1; j++ {
+			targetW := w[i]
+			targetV := v[i]
+
+			if j < targetV {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = min(dp[i-1][j], dp[i-1][j-targetV]+targetW)
+			}
+		}
+	}
+
+	maxV := 0
+	for sumV, sumW := range dp[N] {
+		if sumW <= W {
+			maxV = sumV
+		}
+	}
+
+	fmt.Fprint(writer, maxV)
 }
 
 // ==================================================
