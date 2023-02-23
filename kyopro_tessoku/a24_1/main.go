@@ -30,45 +30,38 @@ func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
 
-	// N=要素数
 	N := ni(sc)
+
 	A := make([]int, N+1)
-	for i := 1; i < len(A); i++ {
+	for i := 1; i < N+1; i++ {
 		A[i] = ni(sc)
 	}
 
-	dp := make([]int, N+1)
-	// L[部分列長]=部分列長の最後の値(複数同じ部分長を形成する部分列がある場合は最小値)
-	L := make([]int, N)
+	L := make([]int, N+1)
 	for i := range L {
 		L[i] = MaxInt
 	}
 
-	dp[1] = 1
-	L[1] = A[1]
+	dp := make([]int, N+1)
 
-	for i := 2; i < len(dp); i++ {
-		v := A[i]
+	for i := 1; i < N+1; i++ {
+		curr := A[i]
 
-		// NOTE:
-		// L内のvよりも小さい最大の値を検索
-		// SearchInts は挿入位置のIndexを返す。
-		// つまり、すでに+1された値が返ってくるので、そのまま次回の単調増加数として使用できる
-		pos := sort.SearchInts(L, v)
+		pos := sort.SearchInts(L, curr)
 		found := pos != 0
 		if found {
 			dp[i] = pos
-			L[dp[i]] = min(v, L[dp[i]])
+			L[pos] = min(L[pos], curr)
 		} else {
 			dp[i] = 1
-			L[1] = min(L[1], v)
+			L[1] = min(L[1], curr)
 		}
 	}
 
 	answer := 0
-	for i, v := range L {
-		if v != MaxInt {
-			answer = i
+	for _, v := range dp {
+		if v > answer {
+			answer = v
 		}
 	}
 
