@@ -28,15 +28,40 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
-	n := ni(sc)
-	a := nis(sc, n)
+	N := ni(sc)
 
-	answer := 0
-	for _, num := range a {
-		answer += num
+	T := make([]string, N)
+	A := make([]int, N)
+
+	for i := range make([]struct{}, N) {
+		T[i] = ns(sc)
+		A[i] = ni(sc)
 	}
 
-	fmt.Fprint(writer, answer)
+	answer := 0
+	for i := range make([]struct{}, N) {
+		operator := T[i]
+		num := A[i]
+
+		answer = calc(answer, num, operator) % 10000
+		if answer < 0 {
+			answer += 10000
+		}
+		fmt.Fprintln(writer, answer)
+	}
+}
+
+func calc(a, b int, ope string) int {
+	switch ope {
+	case "+":
+		return a + b
+	case "-":
+		return a - b
+	case "*":
+		return a * b
+	default:
+		panic("unexpected")
+	}
 }
 
 // ==================================================

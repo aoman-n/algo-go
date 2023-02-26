@@ -46,6 +46,11 @@ func ni(sc *bufio.Scanner) int {
 	return i
 }
 
+func ns(sc *bufio.Scanner) string {
+	sc.Scan()
+	return sc.Text()
+}
+
 func ni2(sc *bufio.Scanner) (int, int) {
 	return ni(sc), ni(sc)
 }

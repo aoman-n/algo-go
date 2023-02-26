@@ -28,15 +28,17 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
-	n := ni(sc)
-	a := nis(sc, n)
+	N := ni(sc)
 
-	answer := 0
-	for _, num := range a {
-		answer += num
+	s := make([]int, N+1)
+	s[1] = 1
+	s[2] = 1
+
+	for i := 3; i <= N; i++ {
+		s[i] = (s[i-2] + s[i-1]) % MOD
 	}
 
-	fmt.Fprint(writer, answer)
+	fmt.Fprint(writer, s[N])
 }
 
 // ==================================================
