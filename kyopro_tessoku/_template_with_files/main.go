@@ -28,6 +28,8 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
+	// 長い行を読み込めるようにするための定義
+	sc.Buffer([]byte{}, MaxInt)
 	n := ni(sc)
 	a := nis(sc, n)
 

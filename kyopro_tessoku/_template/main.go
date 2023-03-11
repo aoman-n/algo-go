@@ -12,7 +12,13 @@ import (
 var reader io.Reader
 var writer io.Writer
 
-const MOD = 1000000007
+const (
+	MOD = 1000000007
+	// ↓AtCoderがGo1.14.1を使用しているため、定義しておく
+	intSize = 32 << (^uint(0) >> 63) // 32 or 64
+	MaxInt  = 1<<(intSize-1) - 1
+	MinInt  = -1 << (intSize - 1)
+)
 
 func init() {
 	reader = os.Stdin
@@ -22,6 +28,8 @@ func init() {
 func main() {
 	sc := bufio.NewScanner(reader)
 	sc.Split(bufio.ScanWords)
+	// 長い行を読み込めるようにするための定義
+	sc.Buffer([]byte{}, MaxInt)
 	n := ni(sc)
 	a := nis(sc, n)
 
@@ -87,4 +95,35 @@ func nir(sc *bufio.Scanner, n int, m int) [][]int {
 
 func abs(n int) int {
 	return int(math.Abs(float64(n)))
+}
+
+func min(a, b int) int {
+	return int(math.Min(float64(a), float64(b)))
+}
+
+func max(a, b int) int {
+	return int(math.Max(float64(a), float64(b)))
+}
+
+func sumInts(s []int) int {
+	var ret int
+	for _, v := range s {
+		ret += v
+	}
+	return ret
+}
+
+func maxInt(s []int) int {
+	if len(s) <= 0 {
+		return MinInt
+	}
+
+	max := s[0]
+	for i := 1; i < len(s); i++ {
+		if s[i] > max {
+			max = s[i]
+		}
+	}
+
+	return max
 }
