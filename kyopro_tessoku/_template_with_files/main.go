@@ -127,3 +127,30 @@ func maxInt(s []int) int {
 
 	return max
 }
+
+// 見つかった場合対象のindexを返す
+func Search(s []int, v int) (int, bool) {
+	if len(s) <= 0 {
+		return -1, false
+	}
+
+	return searchHelper(s, v, 0, len(s)-1)
+}
+
+func searchHelper(s []int, v, l, r int) (int, bool) {
+	if l > r {
+		return -1, false
+	}
+
+	mid := (l + r) / 2
+
+	if s[mid] == v {
+		return mid, true
+	}
+
+	if v < s[mid] {
+		return searchHelper(s, v, l, mid-1)
+	} else {
+		return searchHelper(s, v, mid+1, r)
+	}
+}
