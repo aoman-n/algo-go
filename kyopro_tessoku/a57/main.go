@@ -91,6 +91,21 @@ func main() {
 
 		fmt.Fprintln(writer, pos)
 	}
+
+	// bitが立っている桁の別確認法
+	// // Queryに答えていく
+	// for range make([]struct{}, Q) {
+	// 	X, Y := ni2(sc)
+
+	// 	pos := X
+	// 	for d := 30; d >= 0; d-- {
+	// 		if Y&(1<<d) != 0 {
+	// 			pos = dp[d][pos]
+	// 		}
+	// 	}
+
+	// 	fmt.Fprintln(writer, pos)
+	// }
 }
 
 // ==================================================
