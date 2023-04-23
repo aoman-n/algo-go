@@ -1,11 +1,11 @@
-package main
+package tips
 
 import (
 	"fmt"
 	"math"
 )
 
-func main() {
+func binaryNumbers() {
 	n := 1000000000
 	// n := 126
 
